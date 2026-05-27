@@ -167,6 +167,14 @@ class TransformerBlock(nn.Module):
 
         return x
 
+class OutputLayer(nn.Module):
+    def __init__(self, d_model, vocab_size):
+        super().__init__()
+        self.layer = nn.Linear(d_model, vocab_size, bias=False)
+
+    def forward(self, x):
+        return self.layer(x)
+
 
 class GPT2Model(nn.Module):
     def __init__(self, d_model, num_heads: int, context_len: int, dropout: float,
@@ -181,7 +189,7 @@ class GPT2Model(nn.Module):
             *[TransformerBlock(d_model, num_heads, context_len, dropout, mask) for _ in range(transformer_layers)])
 
         self.layer_norm = LayerNorm(d_model)
-        self.output_layer = nn.Linear(d_model, vocab_size, bias=False)
+        self.output_layer = OutputLayer(d_model, vocab_size)
 
     def forward(self, x):
         x = self.input_embedding(x)
