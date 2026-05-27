@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import math
 import numpy as np
-from torch import Tensor
 
 
 class Dropout(nn.Module):
@@ -87,11 +86,11 @@ class MultiHeadAttention(nn.Module):
         self.mask = torch.triu(torch.ones(seq_len, seq_len), diagonal=1)
         self.register_buffer('mask', self.mask)
 
-    def mak_attn(self, query, key, value, mask=False):
+    def mak_attn(self, query, key, value, attn_mask=False):
         _, num_tokens, _ = query.shape
 
-        attention_score = torch.matmul(query, key.transpose(-2, 1)) / math.sqrt(self.d_k)
-        if mask:
+        attention_score = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(self.d_k)
+        if attn_mask:
             mask_bool = self.mask.bool()[:num_tokens, :num_tokens]
             attention_score = attention_score.masked_fill(mask_bool == 0, -1e9)
 
@@ -111,7 +110,7 @@ class MultiHeadAttention(nn.Module):
         key = key.view(key.shape[0], key.shape[1], self.num_heads, self.d_k).transpose(1, 2)
         value = value.view(value.shape[0], value.shape[1], self.num_heads, self.d_k).transpose(1, 2)
 
-        x = self.mak_attn(query, key, value, mask=mask)
+        x = self.mak_attn(query, key, value, attn_mask=mask)
 
         x = x.transpose(1, 2).contiguous().view(x.shape[0], -1, self.num_heads * self.d_k)
 
@@ -133,9 +132,9 @@ class FeedForward(nn.Module):
     def __init__(self, d_model, d_ff, dropout):
         super().__init__()
         self.residual_layer = nn.Sequential(
-            nn.Linear(d_model, 4*d_ff),
+            nn.Linear(d_model, d_ff),
             GELU(),
-            nn.Linear(4*d_ff, d_model),
+            nn.Linear(d_ff, d_model),
         )
         self.dropout = Dropout(dropout)
 
@@ -149,12 +148,11 @@ class TransformerBlock(nn.Module):
         self.mask = mask
         self.norm1 = LayerNorm(d_model)
 
-        self.masked_self_attn = nn.Sequential(
-            *[MultiHeadAttention(d_model, num_heads, seq_len, dropout) for _ in range(attn_layer_count)])
+        self.masked_self_attn = MultiHeadAttention(d_model, num_heads, seq_len, dropout)
 
         self.residual_connection = SkipConnection()
         self.norm2 = LayerNorm(d_model)
-        self.feedforward = FeedForward(d_model, d_model, dropout)
+        self.feedforward = FeedForward(d_model, 4*d_model, dropout)
 
     def forward(self, x):
         skip_x_1 = self.residual_connection(x)
@@ -176,7 +174,7 @@ class GPT2Model(nn.Module):
         super().__init__()
         self.transformer_layers = transformer_layers
 
-        self.input_embedding = InputEmbedding(d_model, num_heads)
+        self.input_embedding = InputEmbedding(d_model, vocab_size)
         self.positional_encoding = PositionalEncoding(d_model, context_len, dropout)
 
         self.transformer_block = nn.Sequential(
