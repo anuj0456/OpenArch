@@ -37,3 +37,4 @@ A from-scratch PyTorch implementation of the stack shown in the diagram above:
 - [GPT-2 XL in the LLM Architecture Gallery](https://sebastianraschka.com/llm-architecture-gallery/#card-gpt-2-xl-1-5b)
 - [Language Models are Unsupervised Multitask Learners (GPT-2 paper)](https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
 - [openai-community/gpt2-xl config.json](https://huggingface.co/openai-community/gpt2-xl/blob/main/config.json)
+- [Umar Jamil - https://github.com/hkproj/pytorch-transformer](https://github.com/hkproj/pytorch-transformer)
