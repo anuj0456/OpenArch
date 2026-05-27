@@ -61,7 +61,7 @@ Good first contributions:
 
 Please open an issue before starting a large piece of work so we can avoid duplicating effort. Implementations should prioritize **readability over performance** — this is a learning resource first.
 
-See `CONTRIBUTING.md` for more details (coming soon).
+See `CONTRIBUTING.md` for more details.
 
 ## Acknowledgements
 
