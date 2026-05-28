@@ -1,3 +1,5 @@
+from multiprocessing.managers import convert_to_error
+
 import torch
 from torch import nn
 import torch.nn.functional as F
@@ -27,26 +29,28 @@ class RMSNorm(nn.Module):
 class RoPE(nn.Module):
     def __init__(self, embed_dim, seq_len):
         super().__init__()
+        self.embed_dim = embed_dim
         self.seq_len = seq_len
+
         N = 10000
-        inv_freq = 1. / (N ** (torch.arange(0, embed_dim, 2).float() / embed_dim))
+        inv_freq = 1. / (N ** torch.arange(0, embed_dim, 2).float() / embed_dim)
         inv_freq = torch.cat((inv_freq, inv_freq), dim=-1)
-        pos = torch.arange(seq_len).float()
-        sinusoid_inp = torch.outer(pos, inv_freq)
-        self.register_buffer('sin', sinusoid_inp.sin())
-        self.register_buffer('cos', sinusoid_inp.cos())
+        position = torch.arange(seq_len)
 
-    def rotate_half(self, x):
-        x1, x2 = x.chunk(2, dim=-1)
-        return torch.cat((-x2, x1), dim=-1)
-
-    def apply_rotary_pos_emb(self, x, cos, sin):
-        return (x * cos) + (self.rotate_half(x) * sin)
+        rotation_angle = position.unsqueeze(-1) * inv_freq.unsqueeze(0)
+        self.cos = torch.cos(rotation_angle)
+        self.sin = torch.sin(rotation_angle)
 
     def forward(self, x):
-        cos = self.cos[:self.seq_len].view(1, self.seq_len, 1, -1)
-        sin = self.sin[:self.seq_len].view(1, self.seq_len, 1, -1)
-        return self.apply_rotary_pos_emb(x, cos, sin)
+        x1, x2 = x.chunk(2, dim=-1)
+
+        adj_cos = self.cos[: self.seq_len, :].unsqueeze(0)
+        adj_sin = self.sin[: self.seq_len, :].unsqueeze(0)
+
+        rotation = torch.cat((-x2, x1), dim=-1)
+        x_rotated = (x1 * adj_cos) + (rotation * adj_sin)
+
+        return x_rotated.to(dtype=x.dtype)
 
 
 class GroupedQueryAttention(nn.Module):
