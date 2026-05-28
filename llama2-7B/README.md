@@ -8,7 +8,7 @@ Meta's 2023 dense decoder — the predecessor to Llama 3, using RMSNorm, RoPE, m
   drag-drop the PNG into a GitHub issue comment, copy the generated
   https://github.com/user-attachments/... URL, and paste it below.
 -->
-![Llama 2 7B architecture diagram](REPLACE_WITH_HOSTED_IMAGE_URL)
+![Llama 2 7B architecture diagram](
 
 *Architecture diagram by [Sebastian Raschka](https://sebastianraschka.com/).*
 
