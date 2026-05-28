@@ -149,7 +149,7 @@ class TransformerBlock(nn.Module):
     def forward(self, x):
         skip1 = x
         x = self.rms_norm1(x)
-        x = self.multihead_attn(x)
+        x = self.multihead_attn(x, x, x)
         x = self.sc(x, skip1)
 
         skip2 = x
