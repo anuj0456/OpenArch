@@ -24,8 +24,8 @@ Reading the official model code can be hard because production repos optimize fo
 
 | Model | Status | Decoder | Attention |
 |---|---|---|---|
-| GPT-2 XL | 🚧 | Dense | MHA |
-| Llama 3 / 3.2 | 🚧 | Dense | GQA + RoPE |
+| GPT-2 XL | ✅ | Dense | MHA |
+| Llama 3 / 3.2 | ✅ | Dense | GQA + RoPE |
 | OLMo 2 / 3 | 🚧 | Dense | MHA/GQA + QK-Norm |
 
 The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
