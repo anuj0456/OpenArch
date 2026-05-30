@@ -2,12 +2,6 @@
 
 Allen AI's 2024 fully-open dense decoder. Architecturally close to Llama, but distinguished by two choices: **post-norm** (RMSNorm applied to each sublayer's output before the residual add, rather than to its input) and **QK-Norm** (normalizing queries and keys before attention). Both improve training stability.
 
-<!--
-  This diagram is not hosted on the LLM Architecture Gallery thumbnail set.
-  To display it without committing the PNG to the repo:
-  drag-drop the PNG into a GitHub issue comment, copy the generated
-  https://github.com/user-attachments/... URL, and paste it below.
--->
 ![OLMo 2 7B architecture diagram](https://sebastianraschka.com/llm-architecture-gallery/images/architectures/olmo-2-7b.webp)
 
 *Architecture diagram by [Sebastian Raschka](https://sebastianraschka.com/).*

@@ -2,12 +2,6 @@
 
 Meta's 2023 dense decoder — the predecessor to Llama 3, using RMSNorm, RoPE, multi-head attention, and a SwiGLU feed-forward.
 
-<!--
-  This diagram is not hosted on the LLM Architecture Gallery thumbnail set.
-  To display it without committing the PNG to the repo:
-  drag-drop the PNG into a GitHub issue comment, copy the generated
-  https://github.com/user-attachments/... URL, and paste it below.
--->
 ![Llama 2 7B architecture diagram](
 
 *Architecture diagram by [Sebastian Raschka](https://sebastianraschka.com/)(<img width="1672" height="941" alt="img" src="https://github.com/user-attachments/assets/23c9cc10-9ace-44e1-a98e-5bcb1502551b" />
