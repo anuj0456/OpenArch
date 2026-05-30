@@ -180,7 +180,7 @@ class TransformerBlock(nn.Module):
         sc1 = x
         x = self.rms_norm1(x)
         x = self.mla_layer(x)
-        x = sc1 + x
+        x = self.sc(x, sc1)
 
         sc2 = x
         x = self.rms_norm2(x)
@@ -190,7 +190,7 @@ class TransformerBlock(nn.Module):
         else:
             x = self.moe_layer(x)
 
-        x = sc2 + x
+        x = self.sc(x, sc2)
         return x
 
 
