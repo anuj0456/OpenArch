@@ -28,7 +28,7 @@ Reading the official model code can be hard because production repos optimize fo
 | Llama 2     | ✅ | Dense | MHA + RoPE       |
 | Llama 3     | ✅ | Dense | GQA + RoPE       |
 | OLMo 2      | ✅ | Dense | MHA/GQA + QK-Norm |
-| Deepseek R1 | 🚧  | Dense | MOE + MLA + RoPE |
+| Deepseek R1 | ✅  | Dense | MOE + MLA + RoPE |
 
 The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
 
