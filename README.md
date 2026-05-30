@@ -20,15 +20,16 @@ Reading the official model code can be hard because production repos optimize fo
 
 ## What's implemented (so far)
 
-> ⚠️ Work in progress. Implementations marked ✅ are usable for forward passes; those marked 🚧 are under construction.
+> Implementations marked ✅ are usable for forward passes; those marked 🚧 are under construction.
 
-| Model       | Status | Decoder | Attention        |
-|-------------|--|---|------------------|
-| GPT-2 XL    | ✅ | Dense | MHA              |
-| Llama 2     | ✅ | Dense | MHA + RoPE       |
-| Llama 3     | ✅ | Dense | GQA + RoPE       |
+| Model       | Status | Decoder | Attention         |
+|-------------|--|---|-------------------|
+| GPT-2 XL    | ✅ | Dense | MHA               |
+| Llama 2     | ✅ | Dense | MHA + RoPE        |
+| Llama 3     | ✅ | Dense | GQA + RoPE        |
 | OLMo 2      | ✅ | Dense | MHA/GQA + QK-Norm |
-| Deepseek R1 | ✅  | Dense | MOE + MLA + RoPE |
+| Deepseek R1 | ✅ | Dense | MOE + MLA + RoPE  |
+| Gemma 3     | 🚧 | Dense | GQA + QK-Norm     |
 
 The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
 
