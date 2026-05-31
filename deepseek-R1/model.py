@@ -49,7 +49,7 @@ class RoPE(nn.Module):
         adj_cos = self.cos[: self.context_len, :].unsqueeze(0)
         adj_sin = self.sin[: self.context_len, :].unsqueeze(0)
 
-        rotation = torch.cat((x2, x1), dim=-1)
+        rotation = torch.cat((-x2, x1), dim=-1)
         x_rotated = (x * adj_cos) + (adj_sin * rotation)
 
         return x_rotated
