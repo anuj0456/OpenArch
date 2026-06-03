@@ -1,4 +1,4 @@
-# WIP# Llama 4 Maverick (400B)
+# Llama 4 Maverick (400B)
 
 Meta's 2025 sparse Mixture-of-Experts decoder. 400B total parameters, but only ~17B active per token. Architecturally a Llama-style stack (RMSNorm, RoPE, GQA, SwiGLU experts) with two distinctive choices: **alternating dense and MoE blocks** (every other block uses a single dense SwiGLU FFN instead of MoE), and a **1 shared + 1 routed expert** MoE pattern across 128 experts — very sparse top-k routing.
 
