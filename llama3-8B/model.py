@@ -33,7 +33,7 @@ class RoPE(nn.Module):
         self.seq_len = seq_len
 
         N = 10000
-        inv_freq = 1. / (N ** torch.arange(0, embed_dim, 2).float() / embed_dim)
+        inv_freq = 1. / (N ** (torch.arange(0, embed_dim, 2).float() / embed_dim))
         inv_freq = torch.cat((inv_freq, inv_freq), dim=-1)
         position = torch.arange(seq_len)
 
