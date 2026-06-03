@@ -31,7 +31,8 @@ Reading the official model code can be hard because production repos optimize fo
 | Deepseek R1      | ✅ | Dense | MOE + MLA + RoPE    |
 | Gemma 3          | ✅ | Dense | GQA + QK-Norm + SWA |
 | Mistral 3        | ✅ | Dense | GQA + SWA           |
-| Llama 4 Maverick | 🚧 | Dense | MOE + GQA           |
+| Llama 4 Maverick | ✅ | Dense | MOE + GQA           |
+| Qwen 3           | ✅ | Dense | QK-Norm + GQA       |
 
 The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
 
