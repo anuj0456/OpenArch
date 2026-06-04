@@ -22,17 +22,76 @@ Reading the official model code can be hard because production repos optimize fo
 
 > Implementations marked ✅ are usable for forward passes; those marked 🚧 are under construction.
 
-| Model            | Status | Decoder | Attention           |
-|------------------|--|---|---------------------|
-| GPT-2 XL         | ✅ | Dense | MHA                 |
-| Llama 2          | ✅ | Dense | MHA + RoPE          |
-| Llama 3          | ✅ | Dense | GQA + RoPE          |
-| OLMo 2           | ✅ | Dense | MHA/GQA + QK-Norm   |
-| Deepseek R1      | ✅ | Dense | MOE + MLA + RoPE    |
-| Gemma 3          | ✅ | Dense | GQA + QK-Norm + SWA |
-| Mistral 3        | ✅ | Dense | GQA + SWA           |
-| Llama 4 Maverick | ✅ | Dense | MOE + GQA           |
-| Qwen 3           | 🚧 | Dense | QK-Norm + GQA       |
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Status</th>
+      <th>Model Size</th>
+      <th>Attention</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GPT-2 XL</td>
+      <td>✅</td>
+      <td>1.5B</td>
+      <td>MHA</td>
+    </tr>
+    <tr>
+      <td>Llama 2</td>
+      <td>✅</td>
+      <td>7B</td>
+      <td>MHA + RoPE</td>
+    </tr>
+    <tr>
+      <td>Llama 3</td>
+      <td>✅</td>
+      <td>8B</td>
+      <td>GQA + RoPE</td>
+    </tr>
+    <tr>
+      <td>OLMo 2</td>
+      <td>✅</td>
+      <td>7B</td>
+      <td>MHA/GQA + QK-Norm</td>
+    </tr>
+    <tr>
+      <td>DeepSeek R1</td>
+      <td>✅</td>
+      <td>671B</td>
+      <td>MoE + MLA + RoPE</td>
+    </tr>
+    <tr>
+      <td>Gemma 3</td>
+      <td>✅</td>
+      <td>27B</td>
+      <td>GQA + QK-Norm + SWA</td>
+    </tr>
+    <tr>
+      <td>Mistral 3</td>
+      <td>✅</td>
+      <td>24B</td>
+      <td>GQA + SWA</td>
+    </tr>
+    <tr>
+      <td>Llama 4 Maverick</td>
+      <td>✅</td>
+      <td>400B</td>
+      <td>MoE + GQA</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Qwen 3</td>
+      <td rowspan="2">🚧</td>
+      <td>4B</td>
+      <td>QK-Norm + GQA</td>
+    </tr>
+    <tr>
+      <td>235B</td>
+      <td>QK-Norm + MOE + GQA</td>
+    </tr>
+  </tbody>
+</table>
 
 The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
 
