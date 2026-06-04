@@ -56,14 +56,14 @@ class RoPE(nn.Module):
 
 
 class MultiHeadLatentAttention(nn.Module):
-    def __init__(self, embedding_dim, num_heads, q_latent_dim, kv_latent_dim):
+    def __init__(self, embedding_dim, context_len, num_heads, q_latent_dim, kv_latent_dim):
         super().__init__()
         self.embedding_dim = embedding_dim
         self.num_heads = num_heads
         self.q_latent_dim = q_latent_dim
         self.kv_latent_dim = kv_latent_dim
         self.head_dim = embedding_dim // num_heads
-        self.rope = RoPE(embedding_dim)
+        self.rope = RoPE(embedding_dim, context_len)
 
         self.wq_d = nn.Linear(embedding_dim, q_latent_dim)
         self.w_qk = nn.Linear(q_latent_dim, num_heads * kv_latent_dim)
