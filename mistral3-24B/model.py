@@ -12,7 +12,7 @@ class InputEmbedding(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_size)
 
     def forward(self, x):
-        return self.embedding(x) * math.sqrt(self.embed_size)
+        return self.embedding(x)
 
 
 class RMSNorm(nn.Module):
