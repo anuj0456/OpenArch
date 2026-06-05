@@ -158,8 +158,9 @@ class OLMO2Model(nn.Module):
 
     def forward(self, x):
         x = self.input_embedding(x)
-        for block in self.transformer_blocks:
-            x = block(x)
+
+        x = self.transformer_blocks(x)
+
         x = self.final_rms_norm(x)
         x = self.linear_output(x)
         return x

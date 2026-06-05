@@ -194,8 +194,7 @@ class Mistral3Model(nn.Module):
     def forward(self, x, mask=None):
         x = self.input_layer(x)
 
-        for transformer_block in self.transformer_blocks:
-            x = transformer_block(x, mask)
+        x = self.transformer_blocks(x, mask)
 
         x = self.final_norm(x)
         x = self.output_layer(x)

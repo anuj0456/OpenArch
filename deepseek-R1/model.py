@@ -206,7 +206,7 @@ class DeepseekR1Model(nn.Module):
         super().__init__()
         self.num_transformer_blocks = num_transformer_blocks
         self.input_layer = InputEmbedding(vocab_size, embed_dim)
-        self.transformer_block = nn.Sequential(
+        self.transformer_block = nn.ModuleList(
             *[TransformerBlock(embed_dim, hidden_dim, num_heads, q_latent_dim, kv_latent_dim, num_experts) for _ in range(num_transformer_blocks)])
 
         self.final_norm = RMSNorm(embed_dim)

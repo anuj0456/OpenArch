@@ -234,7 +234,7 @@ class Gemma3Model(nn.Module):
     def __init__(self, vocab_size, input_embed, num_transformer_blocks, cfg):
         super().__init__()
         self.input_embed = InputEmbeddings(vocab_size, input_embed)
-        self.transformer_blocks = nn.Sequential(
+        self.transformer_blocks = nn.ModuleList(
             *[TransformerBlock(**cfg, attn_type = "sliding_window" if (i + 1) % 6 != 0 else "global") for i in range(num_transformer_blocks)],
         )
         self.final_norm = RMSNorm(input_embed)

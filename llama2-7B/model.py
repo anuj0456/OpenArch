@@ -176,10 +176,7 @@ class Llama2Model(nn.Module):
 
     def forward(self, x):
         x = self.input_embedding(x)
-
-        for attention_block in self.attention_blocks:
-            x = attention_block(x)
-
+        x = self.transformer_blocks(x)
         x = self.final_norm(x)
         x = self.output_layer(x)
         return x

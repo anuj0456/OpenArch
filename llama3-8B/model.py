@@ -188,8 +188,7 @@ class LLAMA3Model(nn.Module):
         num_tokens = input_idx.shape[1]
         mask = torch.triu(torch.ones(num_tokens, num_tokens, dtype=torch.bool), diagonal=1)
 
-        for blocks in self.transformer_block:
-            x = blocks(x, mask)
+        x = self.transformer_block(x, mask)
 
         x = self.final_norm(x)
         x = self.output_layer(x)
