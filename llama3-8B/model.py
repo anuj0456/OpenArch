@@ -176,7 +176,7 @@ class LLAMA3Model(nn.Module):
         self.num_heads = num_heads
 
         self.input_embed = InputEmbedding(vocab_size, embed_dim)
-        self.transformer_block = nn.Sequential(
+        self.transformer_blocks = nn.ModuleList(
             *[TransformerBlock(embed_dim, num_heads, num_groups, seq_len) for _ in range(transformer_layers)],
         )
         self.final_norm = RMSNorm(embed_dim)
@@ -188,7 +188,8 @@ class LLAMA3Model(nn.Module):
         num_tokens = input_idx.shape[1]
         mask = torch.triu(torch.ones(num_tokens, num_tokens, dtype=torch.bool), diagonal=1)
 
-        x = self.transformer_block(x, mask)
+        for transformer_block in self.transformer_blocks:
+            x = transformer_block(x, mask)
 
         x = self.final_norm(x)
         x = self.output_layer(x)

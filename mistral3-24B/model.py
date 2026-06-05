@@ -185,7 +185,7 @@ class Mistral3Model(nn.Module):
         self.num_transformer_block = num_transformer_block
 
         self.input_layer = InputEmbedding(vocab_size, embed_size)
-        self.transformer_blocks = nn.Sequential(
+        self.transformer_blocks = nn.ModuleList(
             *[TransformerBlock(embed_size, context_len, hidden_dim, num_heads, num_kv_groups) for _ in range(num_transformer_block)],
         )
         self.final_norm = RMSNorm(embed_size)
@@ -194,7 +194,8 @@ class Mistral3Model(nn.Module):
     def forward(self, x, mask=None):
         x = self.input_layer(x)
 
-        x = self.transformer_blocks(x, mask)
+        for transformer_block in self.transformer_blocks:
+            x = transformer_block(x, mask)
 
         x = self.final_norm(x)
         x = self.output_layer(x)
