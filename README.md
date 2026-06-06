@@ -82,13 +82,19 @@ Reading the official model code can be hard because production repos optimize fo
     </tr>
     <tr>
       <td rowspan="2">Qwen 3</td>
-      <td rowspan="2">🚧</td>
+      <td rowspan="2">✅</td>
       <td>4B</td>
       <td>QK-Norm + GQA</td>
     </tr>
     <tr>
-      <td>235B</td>
+      <td>30B - A3B</td>
       <td>QK-Norm + MOE + GQA</td>
+    </tr>
+    <tr>
+      <td>Kimmi K2</td>
+      <td>🚧</td>
+      <td>1T</td>
+      <td>MLA + MOE</td>
     </tr>
   </tbody>
 </table>
