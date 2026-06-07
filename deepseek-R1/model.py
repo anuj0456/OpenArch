@@ -65,27 +65,31 @@ class MultiHeadLatentAttention(nn.Module):
         self.head_dim = embedding_dim // num_heads
         self.rope = RoPE(embedding_dim, context_len)
 
-        self.wq_d = nn.Linear(embedding_dim, q_latent_dim)
+        self.w_q = nn.Linear(embedding_dim, q_latent_dim)
         self.w_qk = nn.Linear(q_latent_dim, num_heads * kv_latent_dim)
 
-        self.wkv_d = nn.Linear(embedding_dim, kv_latent_dim)
-        self.wv_u = nn.Linear(kv_latent_dim, num_heads * self.head_dim)
+        self.w_k = nn.Linear(embedding_dim, kv_latent_dim)
+        self.w_v = nn.Linear(kv_latent_dim, num_heads * self.head_dim)
 
-        self.w_out = nn.Linear(num_heads * self.head_dim, embedding_dim)
+        self.w_o = nn.Linear(num_heads * self.head_dim, embedding_dim)
 
     def forward(self, x):
         b, seq_len, embedding_dim = x.shape
-        c_q = self.rope(self.wq_d(x))
-        c_kv = self.rope(self.wkv_d(x))
 
-        c_qw_qk = self.w_qk(c_q).view(b, seq_len, self.num_heads, self.kv_latent_dim)
-        scores = torch.matmul(c_qw_qk.transpose(1, 2), c_kv.transpose(-2, -1)[:, None, ...]) / math.sqrt(self.kv_latent_dim)
+        q = self.w_q(x)
+        k = self.w_k(x)
+
+        q = self.rope(q)
+        k = self.rope(k)
+
+        c_qk = self.w_qk(q).view(b, seq_len, self.num_heads, self.kv_latent_dim)
+        scores = torch.matmul(c_qk.transpose(1, 2), k.transpose(-2, -1)[:, None, ...]) / math.sqrt(self.kv_latent_dim)
 
         attn_scores = F.softmax(scores, dim=-1)
-        v = self.wv_u(c_kv).view(b, seq_len, self.num_heads, -1)
+        v = self.w_v(k).view(b, seq_len, self.num_heads, -1)
 
         output = torch.matmul(attn_scores, v.transpose(1, 2)).transpose(1, 2).contiguous()
-        output = self.w_out(output.view(b, seq_len, -1))
+        output = self.w_o(output.view(b, seq_len, -1))
         return output
 
 
