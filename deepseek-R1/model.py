@@ -71,7 +71,7 @@ class MultiHeadLatentAttention(nn.Module):
         self.w_k = nn.Linear(embedding_dim, kv_latent_dim)
         self.w_v = nn.Linear(kv_latent_dim, num_heads * self.head_dim)
 
-        self.w_o = nn.Linear(num_heads * self.head_dim, embedding_dim)
+        self.w_o = nn.Linear(embedding_dim, embedding_dim)
 
     def forward(self, x):
         b, seq_len, embedding_dim = x.shape
