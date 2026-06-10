@@ -92,9 +92,15 @@ Reading the official model code can be hard because production repos optimize fo
     </tr>
     <tr>
       <td>Kimmi K2</td>
-      <td>🚧</td>
+      <td>✅</td>
       <td>1T</td>
       <td>MLA + MOE</td>
+    </tr>
+    <tr>
+      <td>GLM 4.5</td>
+      <td>🚧</td>
+      <td>355B</td>
+      <td>QK-Norm + GQA + MOE + MTP</td>
     </tr>
   </tbody>
 </table>
