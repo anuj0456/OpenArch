@@ -165,20 +165,21 @@ class OutputLayer(nn.Module):
 
 class TransformerBlock(nn.Module):
     def __init__(self, embed_dim,
+                 context_len,
                  hidden_dim,
                  num_heads,
                  q_latent_dim,
                  kv_latent_dim,
-                 num_experts = 256,
-                 top_k = 8):
+                 num_experts,
+                 top_k):
         super().__init__()
         self.rms_norm1 = RMSNorm(embed_dim)
-        self.mla_layer = MultiHeadLatentAttention(embed_dim, num_heads, q_latent_dim, kv_latent_dim)
+        self.mla_layer = MultiHeadLatentAttention(embed_dim, context_len, num_heads, q_latent_dim, kv_latent_dim)
 
         self.sc = SkipConnection()
         self.rms_norm2 = RMSNorm(embed_dim)
         self.moe_layer = MOELayer(embed_dim, hidden_dim, num_experts, top_k)
-        self.ffn = FeedForwardLayer(embed_dim, hidden_dim=18432)
+        self.ffn = FeedForwardLayer(embed_dim, hidden_dim)
 
     def forward(self, x, skip_moe = False):
         sc1 = x
@@ -201,17 +202,19 @@ class TransformerBlock(nn.Module):
 class DeepseekR1Model(nn.Module):
     def __init__(self, vocab_size,
                  embed_dim,
+                 context_len,
                  hidden_dim,
                  num_heads,
                  q_latent_dim,
                  kv_latent_dim,
-                 num_transformer_blocks = 61,
-                 num_experts = 8):
+                 num_transformer_blocks,
+                 num_experts,
+                 top_k):
         super().__init__()
         self.num_transformer_blocks = num_transformer_blocks
         self.input_layer = InputEmbedding(vocab_size, embed_dim)
         self.transformer_block = nn.ModuleList(
-            *[TransformerBlock(embed_dim, hidden_dim, num_heads, q_latent_dim, kv_latent_dim, num_experts) for _ in range(num_transformer_blocks)])
+            *[TransformerBlock(embed_dim, context_len, hidden_dim, num_heads, q_latent_dim, kv_latent_dim, num_experts, top_k) for _ in range(num_transformer_blocks)])
 
         self.final_norm = RMSNorm(embed_dim)
         self.output_layer = OutputLayer(embed_dim, vocab_size)
