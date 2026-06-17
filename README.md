@@ -14,7 +14,7 @@ Modern LLM architectures share a common skeleton but differ in dozens of small, 
 - Normalization: pre-norm, post-norm, QK-Norm, sandwich norm, RMSNorm
 - Positional encodings: RoPE, NoPE, partial RoPE, YaRN
 - Decoder type: dense vs sparse MoE (with or without shared experts), hybrid Mamba/attention
-- Training-time tricks: MTP, latent experts, gated attention
+- Training-time tricks: Multi-token-prediction, latent experts, gated attention
 
 Reading the official model code can be hard because production repos optimize for speed, sharding, and backward compatibility. This repo optimizes for **reading**.
 
@@ -98,9 +98,15 @@ Reading the official model code can be hard because production repos optimize fo
     </tr>
     <tr>
       <td>GLM 4.5</td>
-      <td>🚧</td>
+      <td>✅</td>
       <td>355B</td>
       <td>QK-Norm + GQA + MOE + MTP</td>
+    </tr>
+    <tr>
+      <td>GPT-OSS</td>
+      <td>🚧</td>
+      <td>20B</td>
+      <td>GQA + SWA + MOE</td>
     </tr>
   </tbody>
 </table>
