@@ -125,8 +125,6 @@ OpenArch/
 ├── deepseek_v3/
 ├── README.md
 └── requirements.txt
-
-
 ```
 
 Each model lives in its own folder with respective `model.py` and a short `README.md` describing the architectural choices and references used.
