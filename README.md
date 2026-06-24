@@ -41,7 +41,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>1.5B</td>
       <td>-</td>
       <td>Absolute</td>
-      <td>Multi Head Attention</td>
+      <td>Multihead Attention</td>
       <td>No</td>
     </tr>
     <tr>
@@ -50,7 +50,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>7B</td>
       <td>RMS Norm</td>
       <td>RoPE</td>
-      <td>Multi Head Attention</td>
+      <td>Multihead Attention</td>
       <td>No</td>
     </tr>
     <tr>
@@ -68,7 +68,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>7B</td>
       <td>RMS Norm & QK-Norm</td>
       <td>RoPE</td>
-      <td>Grouped Query Attention</td>
+      <td>Multihead Attention</td>
       <td>No</td>
     </tr>
     <tr>
