@@ -28,7 +28,10 @@ Reading the official model code can be hard because production repos optimize fo
       <th>Model</th>
       <th>Status</th>
       <th>Model Size</th>
+      <th>Normalization</th>
+      <th>Positional Encoding</th>
       <th>Attention</th>
+      <th>Mixture of Expert</th>
     </tr>
   </thead>
   <tbody>
@@ -36,77 +39,116 @@ Reading the official model code can be hard because production repos optimize fo
       <td>GPT-2 XL</td>
       <td>✅</td>
       <td>1.5B</td>
-      <td>MHA</td>
+      <td>-</td>
+      <td>Absolute</td>
+      <td>Multi Head Attention</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>Llama 2</td>
       <td>✅</td>
       <td>7B</td>
-      <td>MHA + RoPE</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Multi Head Attention</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>Llama 3</td>
       <td>✅</td>
       <td>8B</td>
-      <td>GQA + RoPE</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>OLMo 2</td>
       <td>✅</td>
       <td>7B</td>
-      <td>MHA/GQA + QK-Norm</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>DeepSeek R1</td>
       <td>✅</td>
       <td>671B</td>
-      <td>MoE + MLA + RoPE</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Multihead Latent Attention</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>Gemma 3</td>
       <td>✅</td>
       <td>27B</td>
-      <td>GQA + QK-Norm + SWA</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention with Sliding Window</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>Mistral 3</td>
       <td>✅</td>
       <td>24B</td>
-      <td>GQA + SWA</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention with Sliding Window</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>Llama 4 Maverick</td>
       <td>✅</td>
       <td>400B</td>
-      <td>MoE + GQA</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td rowspan="2">Qwen 3</td>
       <td rowspan="2">✅</td>
       <td>4B</td>
-      <td>QK-Norm + GQA</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>No</td>
     </tr>
     <tr>
       <td>30B - A3B</td>
-      <td>QK-Norm + MOE + GQA</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>Kimmi K2</td>
       <td>✅</td>
       <td>1T</td>
-      <td>MLA + MOE</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Multihead Latent Attention</td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>GLM 4.5</td>
       <td>✅</td>
       <td>355B</td>
-      <td>QK-Norm + GQA + MOE + MTP</td>
+      <td>RMS Norm & QK-Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention & Multi-Token Prediction </td>
+      <td>Yes</td>
     </tr>
     <tr>
       <td>GPT-OSS</td>
       <td>🚧</td>
       <td>20B</td>
-      <td>GQA + SWA + MOE</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention with Sliding Window</td>
+      <td>Yes</td>
     </tr>
   </tbody>
 </table>
