@@ -150,6 +150,15 @@ Reading the official model code can be hard because production repos optimize fo
       <td>Grouped Query Attention with Sliding Window</td>
       <td>Yes</td>
     </tr>
+    <tr>
+      <td>Grok-2.5</td>
+      <td>🚧</td>
+      <td>270B</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Grouped Query Attention</td>
+      <td>Yes</td>
+    </tr>
   </tbody>
 </table>
 
