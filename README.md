@@ -143,7 +143,7 @@ Reading the official model code can be hard because production repos optimize fo
     </tr>
     <tr>
       <td>GPT-OSS</td>
-      <td>🚧</td>
+      <td>✅</td>
       <td>20B</td>
       <td>RMS Norm</td>
       <td>RoPE</td>
