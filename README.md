@@ -162,7 +162,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>Yes</td>
     </tr>
     <tr>
-      <td>Multimodal</td>
+      <td rowspan="2">Multimodal</td>
       <td>PaliGemma</td>
       <td>✅</td>
       <td>3B</td>
@@ -170,6 +170,25 @@ Reading the official model code can be hard because production repos optimize fo
       <td>RoPE</td>
       <td>Multihead Attention</td>
       <td>No</td>
+    </tr>
+    <tr>
+      <td>Qwen3</td>
+      <td>🚧</td>
+      <td>3B</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Multihead Attention</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td rowspan="1">Image</td>
+      <td>Dall-e</td>
+      <td>🚧</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>Transformer</td>
+      <td>-</td>
     </tr>
   </tbody>
 </table>
