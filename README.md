@@ -25,17 +25,19 @@ Reading the official model code can be hard because production repos optimize fo
 <table>
   <thead>
     <tr>
+      <th>Modality</th>
       <th>Model</th>
       <th>Status</th>
       <th>Model Size</th>
       <th>Normalization</th>
       <th>Positional Encoding</th>
       <th>Attention</th>
-      <th>Mixture of Expert</th>
+      <th>Mixture of Experts</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td rowspan="14">Text</td>
       <td>GPT-2 XL</td>
       <td>✅</td>
       <td>1.5B</td>
@@ -66,7 +68,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>OLMo 2</td>
       <td>✅</td>
       <td>7B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
       <td>Multihead Attention</td>
       <td>No</td>
@@ -75,7 +77,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>DeepSeek R1</td>
       <td>✅</td>
       <td>671B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
       <td>Multihead Latent Attention</td>
       <td>Yes</td>
@@ -84,7 +86,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>Gemma 3</td>
       <td>✅</td>
       <td>27B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
       <td>Grouped Query Attention with Sliding Window</td>
       <td>No</td>
@@ -111,20 +113,20 @@ Reading the official model code can be hard because production repos optimize fo
       <td rowspan="2">Qwen 3</td>
       <td rowspan="2">✅</td>
       <td>4B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
       <td>Grouped Query Attention</td>
       <td>No</td>
     </tr>
     <tr>
-      <td>30B - A3B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>30B-A3B</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
       <td>Grouped Query Attention</td>
       <td>Yes</td>
     </tr>
     <tr>
-      <td>Kimmi K2</td>
+      <td>Kimi K2</td>
       <td>✅</td>
       <td>1T</td>
       <td>RMS Norm</td>
@@ -136,9 +138,9 @@ Reading the official model code can be hard because production repos optimize fo
       <td>GLM 4.5</td>
       <td>✅</td>
       <td>355B</td>
-      <td>RMS Norm & QK-Norm</td>
+      <td>RMS Norm &amp; QK-Norm</td>
       <td>RoPE</td>
-      <td>Grouped Query Attention & Multi-Token Prediction </td>
+      <td>Grouped Query Attention &amp; Multi-Token Prediction</td>
       <td>Yes</td>
     </tr>
     <tr>
@@ -159,6 +161,16 @@ Reading the official model code can be hard because production repos optimize fo
       <td>Grouped Query Attention</td>
       <td>Yes</td>
     </tr>
+    <tr>
+      <td>Multimodal</td>
+      <td>PaliGemma</td>
+      <td>✅</td>
+      <td>3B</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Multihead Attention</td>
+      <td>No</td>
+    </tr>
   </tbody>
 </table>
 
@@ -168,12 +180,17 @@ The full target list mirrors the 72 architectures in the Architecture Gallery. C
 
 ```
 OpenArch/
-├── gpt2/
-│   ├── model.py
-│   └── README.md
-├── llama3/
-├── qwen3/
-├── deepseek_v3/
+├── text/
+│   ├── gpt2/
+│   │   ├── model.py
+│   │   └── README.md
+│   ├── llama3/
+│   ├── qwen3/
+│   └── deepseek_v3/
+├── multimodal/
+│   └── pali-gemma/
+│       ├── model.py
+│       └── README.md
 ├── README.md
 └── requirements.txt
 ```
