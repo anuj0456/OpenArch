@@ -1,0 +1,223 @@
+<svg viewBox="0 0 1000 1500" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <style>
+    .box { fill: #fff; stroke: #333; stroke-width: 1.5; }
+    .box-dark { fill: #3a3a3a; stroke: #333; stroke-width: 1.5; }
+    .box-vision { fill: #e8f0fa; stroke: #2c5aa0; stroke-width: 1.5; }
+    .box-lm { fill: #eaf3e8; stroke: #4a7c3a; stroke-width: 1.5; }
+    .box-fuse { fill: #f5f0e0; stroke: #8a6a2a; stroke-width: 1.5; }
+    .label { font-size: 14px; fill: #222; text-anchor: middle; }
+    .label-white { font-size: 14px; fill: #fff; text-anchor: middle; }
+    .label-small { font-size: 11px; fill: #555; text-anchor: middle; }
+    .label-tag { font-size: 12px; fill: #2c5aa0; text-anchor: middle; font-weight: 600; }
+    .label-tag-lm { font-size: 12px; fill: #4a7c3a; text-anchor: middle; font-weight: 600; }
+    .title { font-size: 26px; fill: #222; text-anchor: middle; font-weight: 700; }
+    .subtitle { font-size: 14px; fill: #666; text-anchor: middle; }
+    .arrow { stroke: #333; stroke-width: 1.5; fill: none; marker-end: url(#arrowhead); }
+    .callout { stroke: #888; stroke-width: 1; stroke-dasharray: 3,3; fill: none; }
+    .callout-text { font-size: 12px; fill: #333; }
+    .callout-text-b { font-size: 12px; fill: #333; font-weight: 600; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#333"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="500" y="35" class="title">PaliGemma (3B)</text>
+  <text x="500" y="58" class="subtitle">SigLIP-So400m vision encoder + Gemma-2B decoder + linear projection</text>
+
+  <!-- ============= VISION PATH (left) ============= -->
+  <text x="200" y="95" class="label-tag">VISION PATH</text>
+
+  <!-- Image input -->
+  <rect x="130" y="110" width="140" height="55" rx="8" class="box"/>
+  <text x="200" y="132" class="label">Input image</text>
+  <text x="200" y="150" class="label-small">224 × 224 × 3</text>
+
+  <line x1="200" y1="165" x2="200" y2="185" class="arrow"/>
+
+  <!-- SigLIP Vision Encoder -->
+  <rect x="80" y="190" width="240" height="290" rx="10" class="box-vision"/>
+  <text x="200" y="215" class="label" font-weight="600">SigLIP Vision Encoder</text>
+
+  <rect x="105" y="235" width="190" height="35" rx="6" class="box"/>
+  <text x="200" y="257" class="label">Patch embedding (16×16)</text>
+
+  <line x1="200" y1="270" x2="200" y2="285" class="arrow"/>
+
+  <rect x="105" y="285" width="190" height="35" rx="6" class="box"/>
+  <text x="200" y="307" class="label">+ Positional embedding</text>
+
+  <line x1="200" y1="320" x2="200" y2="335" class="arrow"/>
+
+  <rect x="105" y="335" width="190" height="80" rx="6" class="box"/>
+  <text x="200" y="360" class="label">12 × Encoder block</text>
+  <text x="200" y="378" class="label-small">LayerNorm → MHA → residual</text>
+  <text x="200" y="393" class="label-small">LayerNorm → MLP (GELU) → residual</text>
+
+  <line x1="200" y1="415" x2="200" y2="430" class="arrow"/>
+
+  <rect x="105" y="430" width="190" height="35" rx="6" class="box"/>
+  <text x="200" y="452" class="label">Final LayerNorm</text>
+
+  <line x1="200" y1="480" x2="200" y2="505" class="arrow"/>
+
+  <!-- Image token output -->
+  <rect x="105" y="510" width="190" height="45" rx="8" class="box"/>
+  <text x="200" y="530" class="label">256 image tokens</text>
+  <text x="200" y="547" class="label-small">(768-dim)</text>
+
+  <line x1="200" y1="555" x2="200" y2="580" class="arrow"/>
+
+  <!-- Linear projection -->
+  <rect x="105" y="580" width="190" height="50" rx="8" class="box-fuse"/>
+  <text x="200" y="602" class="label" font-weight="600">Linear Projection</text>
+  <text x="200" y="620" class="label-small">768 → 2,048</text>
+
+  <line x1="200" y1="630" x2="200" y2="655" class="arrow"/>
+
+  <rect x="105" y="655" width="190" height="45" rx="8" class="box"/>
+  <text x="200" y="675" class="label">256 image tokens</text>
+  <text x="200" y="692" class="label-small">(2,048-dim)</text>
+
+  <!-- ============= TEXT PATH (right) ============= -->
+  <text x="700" y="95" class="label-tag-lm">TEXT PATH</text>
+
+  <!-- Text input -->
+  <rect x="620" y="110" width="160" height="55" rx="8" class="box"/>
+  <text x="700" y="132" class="label">Input text (prompt)</text>
+  <text x="700" y="150" class="label-small">"caption en"</text>
+
+  <line x1="700" y1="165" x2="700" y2="185" class="arrow"/>
+
+  <!-- Tokenizer -->
+  <rect x="620" y="190" width="160" height="45" rx="8" class="box"/>
+  <text x="700" y="212" class="label">SentencePiece</text>
+  <text x="700" y="228" class="label-small">tokenizer</text>
+
+  <line x1="700" y1="235" x2="700" y2="260" class="arrow"/>
+
+  <!-- Token embedding -->
+  <rect x="620" y="260" width="160" height="50" rx="8" class="box"/>
+  <text x="700" y="282" class="label">Token embedding</text>
+  <text x="700" y="299" class="label-small">× √d_model</text>
+
+  <line x1="700" y1="310" x2="700" y2="655" class="arrow"/>
+
+  <!-- Text token output -->
+  <rect x="620" y="655" width="160" height="45" rx="8" class="box"/>
+  <text x="700" y="675" class="label">Text tokens</text>
+  <text x="700" y="692" class="label-small">(2,048-dim)</text>
+
+  <!-- ============= FUSION ============= -->
+  <line x1="200" y1="700" x2="200" y2="740" class="arrow"/>
+  <line x1="700" y1="700" x2="700" y2="740" class="arrow"/>
+
+  <rect x="80" y="745" width="840" height="90" rx="10" class="box-fuse"/>
+  <text x="500" y="770" class="label" font-weight="600">Merged input sequence (Prefix-LM masking)</text>
+
+  <!-- Sequence blocks -->
+  <rect x="110" y="785" width="220" height="30" rx="4" fill="#e8f0fa" stroke="#2c5aa0"/>
+  <text x="220" y="804" class="label" font-size="12">[image tokens] × 256</text>
+
+  <rect x="335" y="785" width="45" height="30" rx="4" fill="#fff" stroke="#333"/>
+  <text x="357" y="804" class="label" font-size="12">BOS</text>
+
+  <rect x="385" y="785" width="150" height="30" rx="4" fill="#eaf3e8" stroke="#4a7c3a"/>
+  <text x="460" y="804" class="label" font-size="12">[prefix tokens]</text>
+
+  <rect x="540" y="785" width="45" height="30" rx="4" fill="#fff" stroke="#333"/>
+  <text x="562" y="804" class="label" font-size="12">SEP</text>
+
+  <rect x="590" y="785" width="200" height="30" rx="4" fill="#f5e0e0" stroke="#a05050"/>
+  <text x="690" y="804" class="label" font-size="12">[suffix tokens]</text>
+
+  <rect x="795" y="785" width="45" height="30" rx="4" fill="#fff" stroke="#333"/>
+  <text x="817" y="804" class="label" font-size="12">EOS</text>
+
+  <text x="220" y="828" class="label-small">block attention</text>
+  <text x="460" y="828" class="label-small">block attention</text>
+  <text x="690" y="828" class="label-small">causal attention</text>
+
+  <line x1="500" y1="835" x2="500" y2="870" class="arrow"/>
+
+  <!-- ============= GEMMA DECODER ============= -->
+  <rect x="150" y="875" width="700" height="440" rx="10" class="box-lm"/>
+  <text x="500" y="905" class="label" font-weight="600" font-size="18">Gemma-2B Decoder</text>
+
+  <!-- Decoder block detail -->
+  <rect x="200" y="925" width="600" height="270" rx="8" class="box"/>
+  <text x="500" y="948" class="label" font-weight="600">18 × Decoder block</text>
+
+  <rect x="240" y="965" width="240" height="30" rx="4" class="box"/>
+  <text x="360" y="984" class="label">Input RMSNorm</text>
+
+  <line x1="360" y1="995" x2="360" y2="1010" class="arrow"/>
+
+  <rect x="220" y="1010" width="280" height="45" rx="4" class="box-dark"/>
+  <text x="360" y="1030" class="label-white">Grouped-Query Attention</text>
+  <text x="360" y="1046" class="label-white" font-size="11">8 heads · head_dim 256 · RoPE</text>
+
+  <line x1="360" y1="1055" x2="360" y2="1070" class="arrow"/>
+
+  <text x="360" y="1080" class="label" font-size="18">⊕</text>
+  <text x="380" y="1082" class="label-small" text-anchor="start">residual</text>
+
+  <line x1="360" y1="1085" x2="360" y2="1105" class="arrow"/>
+
+  <rect x="240" y="1105" width="240" height="30" rx="4" class="box"/>
+  <text x="360" y="1124" class="label">Post-attention RMSNorm</text>
+
+  <line x1="360" y1="1135" x2="360" y2="1150" class="arrow"/>
+
+  <rect x="220" y="1150" width="280" height="35" rx="4" class="box"/>
+  <text x="360" y="1172" class="label">Gemma MLP (GeGLU, 16,384)</text>
+
+  <!-- Right callout for decoder block -->
+  <line x1="500" y1="1030" x2="580" y2="1030" class="callout"/>
+  <text x="590" y="1006" class="callout-text-b">Attention</text>
+  <text x="590" y="1022" class="callout-text">• 8 query heads</text>
+  <text x="590" y="1038" class="callout-text">• 1 KV head (MQA in v1)</text>
+  <text x="590" y="1054" class="callout-text">• head_dim = 256</text>
+  <text x="590" y="1070" class="callout-text">• RoPE (θ = 10,000)</text>
+
+  <line x1="500" y1="1167" x2="580" y2="1167" class="callout"/>
+  <text x="590" y="1143" class="callout-text-b">MLP (GeGLU)</text>
+  <text x="590" y="1159" class="callout-text">• gate = GELU(fc_g(x))</text>
+  <text x="590" y="1175" class="callout-text">• up = fc_u(x)</text>
+  <text x="590" y="1191" class="callout-text">• out = fc_d(gate × up)</text>
+
+  <line x1="500" y1="1220" x2="500" y2="1235" class="arrow"/>
+
+  <!-- Final layers -->
+  <rect x="300" y="1235" width="400" height="30" rx="4" class="box"/>
+  <text x="500" y="1254" class="label">Final RMSNorm</text>
+
+  <line x1="500" y1="1265" x2="500" y2="1280" class="arrow"/>
+
+  <rect x="300" y="1280" width="400" height="30" rx="4" class="box"/>
+  <text x="500" y="1299" class="label">LM head (2,048 → 257,152, weight tied)</text>
+
+  <line x1="500" y1="1315" x2="500" y2="1335" class="arrow"/>
+
+  <rect x="380" y="1335" width="240" height="35" rx="8" class="box"/>
+  <text x="500" y="1357" class="label" font-weight="600">Generated text (autoregressive)</text>
+
+  <!-- Right-side global callouts -->
+  <text x="880" y="120" class="callout-text-b">Vocab</text>
+  <text x="880" y="136" class="callout-text">257,152</text>
+
+  <text x="880" y="230" class="callout-text-b">Image token</text>
+  <text x="880" y="246" class="callout-text">index = 256,000</text>
+
+  <text x="880" y="620" class="callout-text-b">Projection</text>
+  <text x="880" y="636" class="callout-text">dim = 2,048</text>
+
+  <text x="880" y="895" class="callout-text-b">Gemma-2B specs</text>
+  <text x="880" y="911" class="callout-text">• 18 layers</text>
+  <text x="880" y="927" class="callout-text">• hidden = 2,048</text>
+  <text x="880" y="943" class="callout-text">• FFN = 16,384</text>
+  <text x="880" y="959" class="callout-text">• max_pos = 8,192</text>
+</svg>
