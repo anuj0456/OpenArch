@@ -1,4 +1,4 @@
-config = {
+{
     "vocab_size" : 151000,
     "embedding_dim": 5120,
     "context_len": 128000,
@@ -11,5 +11,5 @@ config = {
     "num_kv_groups": 8,
     "head_dim": 128,
     "mtp_depth": 1,
-    "qk_norm": True
+    "qk_norm": "true"
 }
