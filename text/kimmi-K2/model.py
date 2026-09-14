@@ -135,6 +135,7 @@ class MOELayer(nn.Module):
         self.embed_dim = embed_dim
         self.hidden_dim = hidden_dim
         self.num_experts = num_experts
+        self.top_k = top_k
 
         self.experts = nn.ModuleList([MLP(embed_dim, hidden_dim) for _ in range(num_experts)])
         self.router = nn.Linear(self.embed_dim, num_experts)
@@ -145,7 +146,7 @@ class MOELayer(nn.Module):
         hidden_state_reshaped = x.view(-1, self.embed_dim)
         router_logits = self.router(hidden_state_reshaped)
 
-        top_k_logits, top_k_indices = torch.topk(router_logits, k=self.num_experts, dim=-1)
+        top_k_logits, top_k_indices = torch.topk(router_logits, k=self.top_k, dim=-1)
         top_k_probs = F.softmax(top_k_logits, dim=-1)
 
         output = torch.zeros(batch_size * num_tokens, self.hidden_dim, device=x.device, dtype=x.dtype)
