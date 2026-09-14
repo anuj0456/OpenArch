@@ -7,7 +7,7 @@ Thanks for your interest in contributing! OpenArch is a learning-focused project
 - Implement a new architecture from [Sebastian Raschka's gallery](https://sebastianraschka.com/llm-architecture-gallery/)
 - Write or improve a per-model README
 - Fix bugs or improve existing code
-- Add tests
+- Add config
 
 ## Getting started
 
