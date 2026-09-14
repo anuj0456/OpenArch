@@ -205,6 +205,7 @@ OpenArch/
 │   │   └── README.md
 │   ├── llama3/
 │   ├── qwen3/
+|   ├── grok2.5/
 │   └── deepseek_v3/
 ├── multimodal/
 │   └── pali-gemma/
