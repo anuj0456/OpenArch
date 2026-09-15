@@ -57,7 +57,7 @@ class RoPE(nn.Module):
 
         return x_rotated
 
-class GroupedQueryAttention(nn.Module):
+class GroupedQueryAttentionWithSlidingWindow(nn.Module):
     def __init__(self, embed_dim, context_len, head_dim, num_kv_groups, num_heads = 32, qk_norm = False, query_pre_attn_scalar = None):
         super().__init__()
         self.embed_dim = embed_dim
@@ -188,7 +188,7 @@ class TransformerBlock(nn.Module):
         self.sliding_window = sliding_window
 
         self.pre_norm1 = RMSNorm(input_embed)
-        self.gpa_with_swa = GroupedQueryAttention(input_embed, context_len, head_dim, num_kv_groups, num_heads, qk_norm, query_pre_attn_scalar)
+        self.gpa_with_swa = GroupedQueryAttentionWithSlidingWindow(input_embed, context_len, head_dim, num_kv_groups, num_heads, qk_norm, query_pre_attn_scalar)
         self.post_norm1 = RMSNorm(input_embed)
 
         self.sc = SkipConnection()
