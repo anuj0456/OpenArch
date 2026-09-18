@@ -154,11 +154,20 @@ Reading the official model code can be hard because production repos optimize fo
     </tr>
     <tr>
       <td>Grok-2.5</td>
-      <td>🚧</td>
+      <td>✅</td>
       <td>270B</td>
       <td>RMS Norm</td>
       <td>RoPE</td>
       <td>Grouped Query Attention</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>Qwen3 Next</td>
+      <td>🚧</td>
+      <td>80B-A3B</td>
+      <td>RMS Norm</td>
+      <td>RoPE</td>
+      <td>Gated Attention</td>
       <td>Yes</td>
     </tr>
     <tr>
@@ -172,7 +181,7 @@ Reading the official model code can be hard because production repos optimize fo
       <td>No</td>
     </tr>
     <tr>
-      <td>Qwen3</td>
+      <td>Qwen3-VL</td>
       <td>🚧</td>
       <td>3B</td>
       <td>RMS Norm</td>
@@ -193,7 +202,7 @@ Reading the official model code can be hard because production repos optimize fo
   </tbody>
 </table>
 
-The full target list mirrors the 72 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
+The full target list mirrors the 103 architectures in the Architecture Gallery. Contributions toward any of them are welcome.
 
 ## Repository layout
 
