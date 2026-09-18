@@ -45,8 +45,8 @@ class RoPE(nn.Module):
         seq_len = x.size(2)
         x1, x2 = x.chunk(2, dim=-1)
 
-        adjusted_cos = self.cos[:, :seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
-        adjusted_sin = self.sin[:, :seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
+        adjusted_cos = self.cos[:seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
+        adjusted_sin = self.sin[:seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
 
         rotation = torch.cat((-x2, x1), dim=-1)
 
@@ -77,8 +77,8 @@ class GQA(nn.Module):
 
         self.rope = RoPE(head_dim, self.context_len)
 
-        self.register_buffer("cache_k", None, persistent=False)
-        self.register_buffer("cache_v", None, persistent=False)
+        self.cache_k = None
+        self.cache_v = None
         self.ptr_current_pos = 0
 
     def forward(self, x, use_cache=False):
@@ -88,8 +88,8 @@ class GQA(nn.Module):
         k = self.w_k(x).view(b, n, self.num_kv_groups, self.head_dim).transpose(1, 2)
         v = self.w_v(x).view(b, n, self.num_kv_groups, self.head_dim).transpose(1, 2)
 
-        q = self.rope.rope(q)
-        k = self.rope.rope(k)
+        q = self.rope(q)
+        k = self.rope(k)
 
         if use_cache:
             if self.cache_k is None:
@@ -122,13 +122,13 @@ class GQA(nn.Module):
             q_positions = torch.arange(num_tokens_q, device=device, dtype=torch.long)
             self.ptr_current_pos = 0
         k_positions = torch.arange(num_tokens_k, device=device, dtype=torch.long)
-        attn_mask = q_positions.unsqueeze(-1) < k_positions.unsqueeze(0)
+        attn_mask = q_positions.unsqueeze(-1) <= k_positions.unsqueeze(0)
 
         attention_score = attention_score.masked_fill(attn_mask == 0, -1e9)
         attn_weight = F.softmax(attention_score, dim=-1)
 
         contex_vec = (attn_weight @ v).transpose(1, 2)
-        contex_vec = contex_vec.contiguous().view(b, n, self.head_dim)
+        contex_vec = contex_vec.contiguous().view(b, n, self.hidden_dim)
 
         output = self.w_o(contex_vec)
         return output
@@ -138,7 +138,7 @@ class MLP(nn.Module):
     def __init__(self, embed_dim, hidden_dim):
         super().__init__()
         self.ff_1 = nn.Linear(embed_dim, hidden_dim)
-        self.ff_1 = nn.Linear(embed_dim, hidden_dim)
+        self.ff_2 = nn.Linear(embed_dim, hidden_dim)
         self.ff_3 = nn.Linear(hidden_dim, embed_dim)
 
     def forward(self, x):
@@ -179,7 +179,7 @@ class MOE(nn.Module):
             expert_input = reshape_hidden_states[token_mask]
             expert_weight = top_k_probs[mask].unsqueeze(-1)
             expert_output = self.experts[expert_id](expert_input)
-            output[token_mask] = expert_output * expert_weight
+            output[token_mask] += expert_output * expert_weight
 
         output = output.view(b, seq_len, embed_dim)
         return output
@@ -200,9 +200,9 @@ class TransformerBlock(nn.Module):
         self.attention_layer = GQA(embed_dim, context_len, num_heads, head_dim, num_kv_groups)
 
         self.residual_connection = ResidualConnection()
-        self.shared_mlp = MLP(embed_dim, embed_dim)
+        self.shared_mlp = MLP(embed_dim, 32768)
 
-        self.norm_2 = RMSNorm(hidden_dim)
+        self.norm_2 = RMSNorm(embed_dim)
         self.moe = MOE(embed_dim, hidden_dim, top_k, num_experts)
 
     def forward(self, x):
@@ -234,13 +234,13 @@ class OutputLayer(nn.Module):
 class GroqModel(nn.Module):
     def __init__(self, vocab_size, embed_dim, context_len, num_heads, head_dim, num_kv_groups, hidden_dim, top_k, num_experts, num_trnfmr_blocks):
         super().__init__()
-        self.input_layer = nn.Linear(vocab_size, embed_dim)
+        self.input_layer = InputEmbedding(vocab_size, embed_dim)
         self.transformer_blocks = nn.ModuleList([
             TransformerBlock(embed_dim, context_len, num_heads, head_dim, num_kv_groups, hidden_dim, top_k, num_experts)
                 for _ in range(num_trnfmr_blocks)])
 
         self.final_norm = RMSNorm(embed_dim)
-        self.output_layer = nn.Linear(embed_dim, vocab_size)
+        self.output_layer = OutputLayer(embed_dim, vocab_size)
 
     def forward(self, x):
         x = self.input_layer(x)
