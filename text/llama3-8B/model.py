@@ -41,11 +41,12 @@ class RoPE(nn.Module):
         self.cos = torch.cos(rotation_angle)
         self.sin = torch.sin(rotation_angle)
 
-    def forward(self, x):
+    def forward(self, x, pos_offset=0):
+        seq_len = x.size(2)
         x1, x2 = x.chunk(2, dim=-1)
 
-        adj_cos = self.cos[: self.seq_len, :].unsqueeze(0)
-        adj_sin = self.sin[: self.seq_len, :].unsqueeze(0)
+        adj_cos = self.cos[pos_offset: pos_offset + seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
+        adj_sin = self.sin[pos_offset: pos_offset + seq_len].unsqueeze(0).unsqueeze(0).to(x.dtype)
 
         rotation = torch.cat((-x2, x1), dim=-1)
         x_rotated = (x1 * adj_cos) + (rotation * adj_sin)
