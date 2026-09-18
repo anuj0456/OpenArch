@@ -97,7 +97,7 @@ class GroupedQueryAttention(nn.Module):
 
         attention_score = (q @ k.transpose(2, 3)) / math.sqrt(self.head_dim)
         if mask is None:
-            mask = self._get_causal_mask(attention_score)
+            mask = self._get_causal_mask(attention_score, x.device)
 
         attention_score = attention_score.masked_fill(mask == 0, -1e9)
         sinks = self.sinks.view(1, self.num_heads, 1, 1).expand(b, -1, num_tokens, 1)
@@ -179,10 +179,10 @@ class TransformerBlock(nn.Module):
         self.rms_norm2 = RMSNorm(embed_dim)
         self.moe = MOE(embed_dim, hidden_dim, top_k, num_experts)
 
-    def forward(self, x):
+    def forward(self, x, use_cache=False):
         residual1 = x
         x = self.rms_norm1(x)
-        x = self.attn_block(x)
+        x = self.attn_block(x, use_cache=use_cache)
         x = self.rc(x, residual1)
 
         residual2 = x
@@ -224,7 +224,7 @@ class GPTOSSModel(nn.Module):
     def forward(self, x):
         x = self.input_layer(x)
         for block in self.transformer_blocks:
-            x = block(x)
+            x = block(x, use_cache=True)
         x = self.final_norm(x)
         x = self.output_layer(x)
         return x
