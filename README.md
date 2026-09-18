@@ -37,7 +37,7 @@ Reading the official model code can be hard because production repos optimize fo
   </thead>
   <tbody>
     <tr>
-      <td rowspan="14">Text</td>
+      <td rowspan="15">Text</td>
       <td>GPT-2 XL</td>
       <td>✅</td>
       <td>1.5B</td>
