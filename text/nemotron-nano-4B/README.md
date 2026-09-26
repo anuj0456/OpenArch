@@ -34,7 +34,7 @@ NVIDIA's 2025 hybrid **Mamba-2 / Transformer** decoder — the small, **dense** 
 - **`FeedForwardNetwork`** — non-gated squared-ReLU MLP
 - **`GroupedQueryAttention`** — GQA with 40 query heads / 8 KV heads and a causal mask. No positional encoding (NoPE).
 - **`Mamba2Block`** — Mamba-2 mixer: a single input projection splits into gate `z`, conv input `xBC`, and per-head timestep `dt`; a causal depthwise Conv1d + SiLU feeds a selective state-space scan with one `A`/`D` per head and grouped `B`/`C`; a gated RMSNorm and output projection close the block.
-- **`HybridBlock`** — one pre-norm residual sublayer that holds a single mixer (Mamba-2, attention, or FFN), chosen by its layer-type character: `x → RMSNorm → mixer → + residual`.
+- **`NemotronBlock`** — one pre-norm residual sublayer that holds a single mixer (Mamba-2, attention, or FFN), chosen by its layer-type character: `x → RMSNorm → mixer → + residual`.
 - **`OutputLayer`** — final linear projection to vocab logits.
 - **`NemotronModel`** — embeds tokens, builds one `HybridBlock` per character in `hybrid_override_pattern`, applies a final RMSNorm, and projects to vocab.
 
