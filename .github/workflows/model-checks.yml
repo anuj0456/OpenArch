@@ -1,0 +1,65 @@
+name: model-checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: smoke (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-ci.txt
+
+      # CPU-only torch: ~200 MB instead of ~2.5 GB with CUDA. transformers is
+      # deliberately not installed -- nothing in tests/ needs it.
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install --index-url https://download.pytorch.org/whl/cpu torch
+          pip install -r requirements-ci.txt
+
+      - name: Compile every .py (catches syntax errors outside text/)
+        run: python -m compileall -q text multimodal tests
+
+      - name: Smoke test -- every text/**/model.py builds and returns logits
+        run: python tests/smoke_test.py --root .
+
+      - name: Behavioural tests (causal mask, finite logits, backward)
+        run: pytest tests/test_models.py -q --tb=short
+
+  # Single aggregate check to mark as "required" in branch protection, so the
+  # rule doesn't have to be edited every time the matrix changes.
+  all-checks:
+    name: all model checks passed
+    if: always()
+    needs: [smoke]
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          if [ "${{ needs.smoke.result }}" != "success" ]; then
+            echo "smoke job failed: ${{ needs.smoke.result }}"; exit 1
+          fi
+          echo "all good"
