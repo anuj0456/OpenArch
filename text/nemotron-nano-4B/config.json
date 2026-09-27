@@ -1,0 +1,18 @@
+{
+  "vocab_size": 131072,
+  "hidden_size": 3136,
+  "max_position_embeddings": 262144,
+  "num_hidden_layers": 42,
+  "hybrid_override_pattern": "M-M-M-MM-M-M*-M-M*-M-M-M*-M-M-MM*-MMM-M-M-",
+  "num_attention_heads": 40,
+  "num_key_value_heads": 8,
+  "head_dim": 128,
+  "mamba_num_heads": 96,
+  "mamba_head_dim": 80,
+  "n_groups": 8,
+  "ssm_state_size": 128,
+  "conv_kernel": 4,
+  "intermediate_size": 12544,
+  "mlp_hidden_act": "relu2",
+  "rms_norm_eps": 1e-05
+}
